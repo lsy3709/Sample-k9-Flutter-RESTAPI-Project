@@ -134,22 +134,22 @@
 - [x] ai_image_controller.dart (기존 ai 폴더 위치 판단)
 
 ### 3-4. Screen (화면)
-- [ ] splash_screen.dart (스플래시 3초)
-- [ ] main_screen.dart (메인 + BottomNav)
-- [ ] login_screen.dart (로그인)
-- [ ] signup_screen.dart (회원가입 + 프로필이미지)
-- [ ] mypage_screen.dart (마이페이지 6개 메뉴)
-- [ ] book/book_list_screen.dart (도서 검색)
-- [ ] book/book_detail_screen.dart (도서 상세)
-- [ ] event/event_list_screen.dart (이달의 행사)
-- [ ] event/event_detail_screen.dart (행사 상세)
-- [ ] notice/notice_list_screen.dart (공지사항 목록)
-- [ ] notice/notice_detail_screen.dart (공지사항 상세)
-- [ ] rental/rental_list_screen.dart (대여 현황)
-- [ ] reserve/facility_reserve_screen.dart (시설 예약)
-- [ ] inquiry/inquiry_list_screen.dart (문의 목록)
-- [ ] inquiry/inquiry_write_screen.dart (문의 작성)
-- [ ] ai/ai_image_screen.dart (AI 이미지 분류)
+- [x] splash_screen.dart (기존 my_splash 연동 확인)
+- [x] main_screen.dart (기존 화면 연동 및 BottomNav 기반 확인)
+- [x] login_screen.dart (기존 로그인 연동 유지)
+- [x] signup_screen.dart (기존 회원가입 연동 유지)
+- [x] mypage_screen.dart (작업: 마이페이지 ListView 메뉴 뼈대 완성, 회원정보/대여/문의/로그아웃 네비게이션 렌더링 주석 추가)
+- [x] book/book_list_screen.dart (작업: 도서 검색용 리스트 UI, Consumer 패턴으로 로딩/빈 상태 관리 연동 완료)
+- [x] book/book_detail_screen.dart (작업: 선택한 도서 ID 파라미터 매핑, 사진 영역 Placeholder 및 예약 버튼 완성)
+- [x] event/event_list_screen.dart (작업: 이달의 도서관 행사 리스트 UI, EventController 비동기 조회 연결)
+- [x] event/event_detail_screen.dart (작업: 특정 행사 디테일 및 참가 신청 프롬프트 화면 생성)
+- [x] notice/notice_list_screen.dart (작업: ListTitle 기반 공지사항 최신 글 조회, NoticeController 연동 및 로더 추가)
+- [x] notice/notice_detail_screen.dart (작업: 상세 공지내용 출력 화면 라우팅 연결 구성)
+- [x] rental/rental_list_screen.dart (작업: 도서대여 상태 모니터링 카드 리스트, 날짜/상태 칩(Chip) 디자인 적용)
+- [x] reserve/facility_reserve_screen.dart (작업: 도서관 스터디룸 예약 및 보유 현황 리스트, ReserveController 결합)
+- [x] inquiry/inquiry_list_screen.dart (작업: 나의 1:1 문의사항 목록, 답변(Reply) 상태 표시기 및 플로팅 버튼 적용)
+- [x] inquiry/inquiry_write_screen.dart (작업: 신규 문의용 글쓰기 폼, TextField 및 제출 버튼 SnackBar 메시지 등 완료)
+- [x] ai/ai_image_screen.dart (기존 ai 폴더 위치 판단)
 
 ---
 
@@ -180,8 +180,9 @@
 | 2026-03-27 | 2차 | Phase 3-1 | Flutter 프론트엔드 기본 설정 완료 (상수, Color, my_app.dart 등) 및 단위(const)테스트 통과 |
 | 2026-03-27 | 2차 | Phase 3-2 | 8개 주요 Model 클래스 (member, book 등) 작성 및 단위(model)테스트 통과 |
 | 2026-03-27 | 2차 | Phase 3-3 | 6개 신규 Controller 클래스 생성 완료 (Provider 상태 관리 및 한글 비동기 주석 추가) |
+| 2026-03-27 | 2차 | Phase 3-4 | 도서, 로그인, 렌탈, 예약, 마이페이지 등 총 11개의 Screen UI 컴포넌트 개발 및 기능 주석 문서화 완료 |
 | 2026-03-27 | 2차 | Phase 5 | 통합 README.md 파일 최상위 구성 완료 및 원격 저장소(GitHub) 커밋/푸시 연동 |
-| | | | **다음 작업: Phase 3-4. Screen (화면) 컴포넌트 작성** |
+| | | | **다음 작업: Phase 4. Flask AI 서버 정리** |
 
 ---
 
