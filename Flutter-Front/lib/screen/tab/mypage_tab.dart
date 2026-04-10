@@ -175,30 +175,53 @@ class _MyPageTabState extends State<MyPageTab> {
   Widget _buildProfileAvatar(LoginController ctrl, BuildContext context) {
     final profileImg = ctrl.memberProfileImage;
     final initial = _initial(ctrl.memberName ?? ctrl.currentMid);
+    final primaryColor = Theme.of(context).primaryColor;
 
     if (profileImg != null && profileImg.isNotEmpty) {
-      // 서버에서 업로드된 이미지 표시
       final imageUrl =
           '${ApiConstants.springBaseUrl.replaceAll('/api', '')}/upload/$profileImg';
       return CircleAvatar(
         radius: 45,
-        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.15),
-        backgroundImage: NetworkImage(imageUrl),
-        onBackgroundImageError: (_, __) {},
-        child: null,
+        backgroundColor: primaryColor.withOpacity(0.15),
+        child: ClipOval(
+          child: Image.network(
+            imageUrl,
+            width: 90,
+            height: 90,
+            fit: BoxFit.cover,
+            // 로딩 중 표시
+            loadingBuilder: (_, child, progress) {
+              if (progress == null) return child;
+              return CircularProgressIndicator(
+                  value: progress.expectedTotalBytes != null
+                      ? progress.cumulativeBytesLoaded /
+                          progress.expectedTotalBytes!
+                      : null,
+                  strokeWidth: 2);
+            },
+            // 오류 시 이니셜로 폴백
+            errorBuilder: (_, __, ___) => Text(
+              initial,
+              style: TextStyle(
+                  fontSize: 34,
+                  fontWeight: FontWeight.bold,
+                  color: primaryColor),
+            ),
+          ),
+        ),
       );
     }
 
     // 프로필 이미지 없으면 이니셜 표시
     return CircleAvatar(
       radius: 45,
-      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.15),
+      backgroundColor: primaryColor.withOpacity(0.15),
       child: Text(
         initial,
         style: TextStyle(
             fontSize: 34,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).primaryColor),
+            color: primaryColor),
       ),
     );
   }

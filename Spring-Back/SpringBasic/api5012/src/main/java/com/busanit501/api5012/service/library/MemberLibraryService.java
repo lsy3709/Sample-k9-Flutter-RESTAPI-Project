@@ -94,4 +94,13 @@ public interface MemberLibraryService {
      * @return 전체 회원 DTO 목록
      */
     List<MemberDTO> getAllMembers();
+
+    /**
+     * saveProfileImageBase64 - base64 이미지를 저장하고 DB 업데이트
+     *
+     * @param mid         회원 아이디
+     * @param base64Image base64 인코딩된 이미지 데이터
+     * @return 저장된 UUID 파일명
+     */
+    String saveProfileImageBase64(String mid, String base64Image);
 }

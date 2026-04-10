@@ -92,20 +92,34 @@ public class MemberController {
     }
 
     // ── PUT /api/member/profile-image  →  프로필 이미지 변경 ─────────────
+    // body: { mid, base64Image } → 파일 저장 후 UUID 파일명을 DB에 기록
+    // body: { mid, profileImg }  → 파일명만 DB 업데이트 (레거시)
 
     @PutMapping(value = "/profile-image", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "프로필 이미지 변경", description = "프로필 이미지 파일명을 업데이트합니다.")
+    @Operation(summary = "프로필 이미지 변경",
+               description = "base64Image 가 있으면 파일 저장 후 DB 업데이트, 없으면 profileImg 파일명만 업데이트합니다.")
     public ResponseEntity<Map<String, String>> updateProfileImage(
             @RequestBody Map<String, String> body) {
         String mid = body.get("mid");
-        String profileImg = body.get("profileImg");
         log.info("프로필 이미지 변경 요청 - mid: {}", mid);
         try {
-            memberLibraryService.updateProfileImage(mid, profileImg);
-            return ResponseEntity.ok(Map.of("result", "success", "message", "프로필 이미지가 변경되었습니다."));
+            String base64Image = body.get("base64Image");
+            if (base64Image != null && !base64Image.isBlank()) {
+                // base64 이미지를 파일로 저장하고 DB 업데이트
+                String savedFileName = memberLibraryService.saveProfileImageBase64(mid, base64Image);
+                return ResponseEntity.ok(Map.of(
+                        "result", "success",
+                        "message", "프로필 이미지가 변경되었습니다.",
+                        "profileImg", savedFileName));
+            } else {
+                // 파일명만 DB 업데이트
+                String profileImg = body.get("profileImg");
+                memberLibraryService.updateProfileImage(mid, profileImg);
+                return ResponseEntity.ok(Map.of("result", "success", "message", "프로필 이미지가 변경되었습니다."));
+            }
         } catch (RuntimeException e) {
             log.warn("프로필 이미지 변경 실패 - {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("result", "error", "message", e.getMessage()));
         }
     }

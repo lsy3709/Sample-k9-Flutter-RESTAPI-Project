@@ -264,6 +264,25 @@ public class MemberLibraryServiceImpl implements MemberLibraryService {
     }
 
     /**
+     * saveProfileImageBase64 - base64 이미지를 저장하고 DB 업데이트
+     *
+     * 이미지를 파일로 저장한 뒤 Member.profileImg 를 업데이트합니다.
+     */
+    @Override
+    @Transactional
+    public String saveProfileImageBase64(String mid, String base64Image) {
+        log.info("프로필 이미지 base64 저장 - mid: {}", mid);
+
+        Member member = memberRepository.findByMid(mid)
+                .orElseThrow(() -> new RuntimeException("해당 아이디의 회원을 찾을 수 없습니다: " + mid));
+
+        String fileName = saveBase64Image(base64Image);
+        member.changeProfileImg(fileName);
+        log.info("프로필 이미지 저장 완료 - mid: {}, 파일명: {}", mid, fileName);
+        return fileName;
+    }
+
+    /**
      * getAllMembers - 전체 회원 목록 조회 (관리자 전용)
      */
     @Override
