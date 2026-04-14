@@ -3,12 +3,13 @@ export interface LibraryEvent {
   category?: string;
   title: string;
   content?: string;
+  eventDate?: string;   // yyyy-MM-dd
   place?: string;
   maxParticipants?: number;
   currentParticipants?: number;
   remainingSlots?: number;
   status?: string;
-  regDate?: string;
+  regDate?: string;     // yyyy-MM-dd HH:mm:ss
 }
 
 export interface EventApplication {

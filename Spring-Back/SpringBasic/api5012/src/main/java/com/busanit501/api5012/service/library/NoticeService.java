@@ -31,6 +31,17 @@ public interface NoticeService {
     Page<NoticeDTO> getNotices(Pageable pageable);
 
     /**
+     * getNotices - 키워드 검색 + 공지사항 목록 조회
+     *
+     * keyword 가 있으면 제목/내용/작성자 통합 검색, 없으면 전체 조회(상단고정 우선)
+     *
+     * @param keyword  검색 키워드 (null 또는 빈 문자열이면 전체 조회)
+     * @param pageable 페이지 정보
+     * @return 페이지네이션이 적용된 공지사항 목록
+     */
+    Page<NoticeDTO> getNotices(String keyword, Pageable pageable);
+
+    /**
      * getNoticeById - 공지사항 상세 조회 (이미지 포함)
      *
      * JOIN FETCH 를 사용하여 이미지도 함께 로딩합니다.

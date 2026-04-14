@@ -50,6 +50,16 @@ public interface InquiryService {
     Page<InquiryDTO> getInquiries(Pageable pageable, Long viewerMemberId);
 
     /**
+     * getInquiries - 답변 여부 필터 포함 문의사항 목록 조회 (관리자용)
+     *
+     * @param pageable       페이지 정보
+     * @param viewerMemberId 현재 요청자의 회원 ID (null 이면 관리자)
+     * @param answered       답변 여부 필터 (null: 전체, true: 답변완료, false: 답변대기)
+     * @return 페이지네이션이 적용된 문의사항 목록
+     */
+    Page<InquiryDTO> getInquiries(Pageable pageable, Long viewerMemberId, Boolean answered);
+
+    /**
      * getMyInquiries - 내 문의사항 목록 조회
      *
      * 마이페이지에서 내가 작성한 문의사항 목록을 조회합니다.

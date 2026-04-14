@@ -3,6 +3,16 @@
 import Link from "next/link";
 import Protected from "@/components/Protected";
 import { useAuth } from "@/lib/auth-context";
+import { UPLOAD_BASE_URL } from "@/constants/api";
+
+/** profileImg 필드 → 표시용 URL 변환
+ *  - "data:..." 형식 → base64 그대로 사용 (편집 직후 미리보기)
+ *  - UUID 파일명     → Spring /upload/{파일명} 경로로 변환
+ */
+function resolveProfileImg(profileImg: string): string {
+  if (profileImg.startsWith("data:")) return profileImg;
+  return `${UPLOAD_BASE_URL}/upload/${profileImg}`;
+}
 
 export default function MyPage() {
   return (
@@ -25,11 +35,7 @@ function MyPageInner() {
           {member.profileImg ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={
-                member.profileImg.startsWith("data:")
-                  ? member.profileImg
-                  : `data:image/*;base64,${member.profileImg}`
-              }
+              src={resolveProfileImg(member.profileImg)}
               alt={member.mname}
               className="h-20 w-20 rounded-full border object-cover"
             />

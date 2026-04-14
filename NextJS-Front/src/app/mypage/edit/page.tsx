@@ -58,18 +58,21 @@ function EditInner() {
         email,
         region,
       });
+      let newProfileImg = member.profileImg;
       if (profileImageBase64) {
-        await api.put("/member/profile-image", {
+        // 서버가 저장된 UUID 파일명을 { profileImg: "xxx.jpg" } 로 반환
+        const imgRes = await api.put<{ profileImg?: string }>("/member/profile-image", {
           mid: member.mid,
           base64Image: profileImageBase64,
         });
+        newProfileImg = imgRes.data.profileImg ?? member.profileImg;
       }
       const updated: MemberInfo = {
         ...member,
         mname,
         email,
         region,
-        profileImg: profileImageBase64 ?? member.profileImg,
+        profileImg: newProfileImg,
       };
       saveMember(updated);
       login(token, updated);

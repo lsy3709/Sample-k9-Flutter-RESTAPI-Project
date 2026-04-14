@@ -33,6 +33,15 @@ public interface EventService {
     Page<LibraryEventDTO> getEvents(Pageable pageable);
 
     /**
+     * getEvents - 키워드 검색 + 행사 목록 조회
+     *
+     * @param keyword  검색 키워드 (null 또는 빈 문자열이면 전체 조회)
+     * @param pageable 페이지 정보
+     * @return 페이지네이션이 적용된 행사 목록
+     */
+    Page<LibraryEventDTO> getEvents(String keyword, Pageable pageable);
+
+    /**
      * getEventsByDateRange - 기간별 행사 조회
      *
      * 특정 기간(시작일 ~ 종료일) 에 열리는 행사 목록을 반환합니다.

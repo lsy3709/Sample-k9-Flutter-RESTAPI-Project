@@ -64,14 +64,16 @@ public class EventController {
      * @return 200 OK + Page<LibraryEventDTO>
      */
     @GetMapping
-    @Operation(summary = "행사 목록 조회", description = "행사 시작일 기준 내림차순으로 행사 목록을 페이지 단위로 반환합니다.")
+    @Operation(summary = "행사 목록 조회", description = "행사 시작일 기준 내림차순으로 행사 목록을 페이지 단위로 반환합니다. keyword 파라미터로 제목/내용 검색 가능.")
     public ResponseEntity<Page<LibraryEventDTO>> getEvents(
+            @Parameter(description = "검색 키워드 (제목/내용)")
+            @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.info("행사 목록 조회 요청 - page: {}, size: {}", page, size);
+        log.info("행사 목록 조회 요청 - keyword: {}, page: {}, size: {}", keyword, page, size);
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("eventDate").descending());
-        Page<LibraryEventDTO> eventPage = eventService.getEvents(pageable);
+        Page<LibraryEventDTO> eventPage = eventService.getEvents(keyword, pageable);
         return ResponseEntity.ok(eventPage);
     }
 

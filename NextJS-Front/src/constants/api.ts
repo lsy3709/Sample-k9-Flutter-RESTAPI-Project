@@ -9,3 +9,10 @@ export const API_BASE_URL =
 
 /** `/generateToken` 은 `/api` 프리픽스 밖에 있음 (APILoginFilter) */
 export const AUTH_BASE_URL = API_BASE_URL.replace(/\/api\/?$/, "");
+
+/**
+ * 업로드 파일 서빙 기본 URL
+ * Spring CustomServletConfig: /upload/** → file:c:/upload/springTest/
+ * 프로필 이미지 URL 예시: `${UPLOAD_BASE_URL}/upload/{UUID}.jpg`
+ */
+export const UPLOAD_BASE_URL = API_BASE_URL.replace(/\/api\/?$/, "");

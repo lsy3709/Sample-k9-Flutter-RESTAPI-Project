@@ -94,13 +94,19 @@ public class InquiryServiceImpl implements InquiryService {
      */
     @Override
     public Page<InquiryDTO> getInquiries(Pageable pageable, Long viewerMemberId) {
-        log.info("문의사항 목록 조회 - page: {}, viewerMemberId: {}",
-                pageable.getPageNumber(), viewerMemberId);
+        return getInquiries(pageable, viewerMemberId, null);
+    }
+
+    @Override
+    public Page<InquiryDTO> getInquiries(Pageable pageable, Long viewerMemberId, Boolean answered) {
+        log.info("문의사항 목록 조회 - page: {}, viewerMemberId: {}, answered: {}",
+                pageable.getPageNumber(), viewerMemberId, answered);
 
         if (viewerMemberId == null) {
-            // 관리자: 전체 문의사항 조회 (비밀글 포함)
-            Page<Inquiry> inquiryPage = inquiryRepository.findAll(pageable);
-            // 관리자는 isOwnerOrAdmin = true → 마스킹 없이 반환
+            // 관리자: answered 필터가 있으면 해당 상태만 조회, 없으면 전체 조회
+            Page<Inquiry> inquiryPage = (answered != null)
+                    ? inquiryRepository.findByAnswered(answered, pageable)
+                    : inquiryRepository.findAll(pageable);
             return inquiryPage.map(inquiry ->
                     InquiryDTO.fromEntityForList(inquiry, true));
         }
@@ -108,7 +114,6 @@ public class InquiryServiceImpl implements InquiryService {
         // 일반 회원: 공개 문의 + 본인이 작성한 비밀 문의 조회
         Page<Inquiry> inquiryPage = inquiryRepository.findInquiriesForMember(viewerMemberId, pageable);
         return inquiryPage.map(inquiry -> {
-            // 본인이 작성한 문의인지 확인 (비밀글 마스킹 여부 결정)
             boolean isOwner = inquiry.getMember() != null
                     && inquiry.getMember().getId().equals(viewerMemberId);
             return InquiryDTO.fromEntityForList(inquiry, isOwner);

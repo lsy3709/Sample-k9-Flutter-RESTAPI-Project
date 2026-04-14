@@ -102,6 +102,14 @@ public interface EventApplicationRepository extends JpaRepository<EventApplicati
     long countByEventIdAndStatus(Long eventId, String status);
 
     /**
+     * deleteByEventId - 행사 ID 로 해당 행사의 모든 신청 기록 삭제
+     * 행사 삭제 시 FK 제약 위반을 방지하기 위해 먼저 호출합니다.
+     *
+     * @param eventId 삭제할 행사 ID
+     */
+    void deleteByEventId(Long eventId);
+
+    /**
      * findMemberApplicationsWithEventDetails - 회원의 신청 이력 (행사 정보 포함)
      * 마이페이지에서 신청한 행사의 제목, 날짜 등을 함께 표시합니다.
      * JOIN FETCH 로 N+1 문제를 방지합니다.

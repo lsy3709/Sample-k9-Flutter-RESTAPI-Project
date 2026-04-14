@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState, FormEvent } from "react";
 import Link from "next/link";
 import { api, PageResponse } from "@/lib/api";
-import { Book } from "@/types/book";
+import { Book, BOOK_STATUS_LABEL, BOOK_STATUS_COLOR } from "@/types/book";
 
 /**
  * 도서 목록 — GET /api/book?keyword=&page=&size=
@@ -92,9 +92,18 @@ export default function BooksPage() {
                   className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md"
                 >
                   <Link href={`/books/${book.id}`} className="block">
-                    <h2 className="truncate text-lg font-semibold">
-                      {book.bookTitle}
-                    </h2>
+                    <div className="flex items-start justify-between gap-2">
+                      <h2 className="truncate text-lg font-semibold">
+                        {book.bookTitle}
+                      </h2>
+                      {book.status && (
+                        <span
+                          className={`shrink-0 rounded px-2 py-0.5 text-xs font-medium ${BOOK_STATUS_COLOR[book.status]}`}
+                        >
+                          {BOOK_STATUS_LABEL[book.status]}
+                        </span>
+                      )}
+                    </div>
                     <p className="mt-1 text-sm text-gray-600">{book.author}</p>
                     {book.publisher && (
                       <p className="mt-1 text-xs text-gray-400">

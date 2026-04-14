@@ -55,14 +55,16 @@ public class NoticeController {
      * @return 200 OK + Page<NoticeDTO>
      */
     @GetMapping
-    @Operation(summary = "공지사항 목록", description = "상단 고정 공지를 우선하여 공지사항 목록을 반환합니다.")
+    @Operation(summary = "공지사항 목록", description = "상단 고정 공지를 우선하여 공지사항 목록을 반환합니다. keyword 파라미터로 제목/내용/작성자 검색 가능.")
     public ResponseEntity<Page<NoticeDTO>> getNotices(
+            @Parameter(description = "검색 키워드 (제목/내용/작성자)")
+            @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        log.info("공지사항 목록 조회 요청 - page: {}, size: {}", page, size);
+        log.info("공지사항 목록 조회 요청 - keyword: {}, page: {}, size: {}", keyword, page, size);
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<NoticeDTO> noticePage = noticeService.getNotices(pageable);
+        Page<NoticeDTO> noticePage = noticeService.getNotices(keyword, pageable);
         return ResponseEntity.ok(noticePage);
     }
 

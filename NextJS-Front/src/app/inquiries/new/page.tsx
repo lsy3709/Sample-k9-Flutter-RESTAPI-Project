@@ -30,13 +30,11 @@ function NewInquiryInner() {
     setSubmitting(true);
     setError(null);
     try {
-      await api.post("/inquiry", {
-        title,
-        content,
-        writer: member.mname,
-        memberId: member.id,
-        secret,
-      });
+      await api.post(
+        "/inquiry",
+        { title, content, writer: member.mname, secret },
+        { params: { memberId: member.id } },
+      );
       router.push("/inquiries");
     } catch (err: unknown) {
       let m = "등록 실패";

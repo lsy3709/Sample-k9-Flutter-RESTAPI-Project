@@ -54,10 +54,20 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public Page<LibraryEventDTO> getEvents(Pageable pageable) {
-        log.info("행사 목록 조회 - page: {}", pageable.getPageNumber());
+        return getEvents(null, pageable);
+    }
 
-        // 행사일 오름차순 전체 조회
-        Page<LibraryEvent> eventPage = libraryEventRepository.findAllByOrderByEventDateAsc(pageable);
+    @Override
+    public Page<LibraryEventDTO> getEvents(String keyword, Pageable pageable) {
+        log.info("행사 목록 조회 - keyword: {}, page: {}", keyword, pageable.getPageNumber());
+
+        if (keyword != null && !keyword.isBlank()) {
+            Page<LibraryEvent> eventPage = libraryEventRepository.searchByKeyword(keyword, pageable);
+            return eventPage.map(LibraryEventDTO::fromEntity);
+        }
+
+        // 키워드 없음: Controller에서 전달된 Sort(eventDate DESC) 적용
+        Page<LibraryEvent> eventPage = libraryEventRepository.findAll(pageable);
         return eventPage.map(LibraryEventDTO::fromEntity);
     }
 
@@ -267,6 +277,9 @@ public class EventServiceImpl implements EventService {
 
         LibraryEvent event = libraryEventRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("행사를 찾을 수 없습니다. id: " + id));
+
+        // FK 제약 방지: 연관 신청 기록 먼저 삭제
+        eventApplicationRepository.deleteByEventId(id);
 
         libraryEventRepository.delete(event);
         log.info("행사 삭제 완료 - eventId: {}", id);

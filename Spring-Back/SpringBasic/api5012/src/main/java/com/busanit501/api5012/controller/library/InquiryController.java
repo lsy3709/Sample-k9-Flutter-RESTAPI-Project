@@ -119,16 +119,18 @@ public class InquiryController {
      * @return 200 OK + Page<InquiryDTO>
      */
     @GetMapping
-    @Operation(summary = "문의사항 목록 조회", description = "비밀글 처리가 포함된 문의사항 목록을 반환합니다. viewerMemberId 없으면 관리자 모드(전체 조회).")
+    @Operation(summary = "문의사항 목록 조회", description = "비밀글 처리가 포함된 문의사항 목록을 반환합니다. viewerMemberId 없으면 관리자 모드(전체 조회). answered 파라미터로 답변 여부 필터링 가능.")
     public ResponseEntity<Page<InquiryDTO>> getInquiries(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @Parameter(description = "조회 회원 ID (없으면 관리자로 처리)")
-            @RequestParam(required = false) Long viewerMemberId) {
-        log.info("문의사항 목록 조회 - page: {}, viewerMemberId: {}", page, viewerMemberId);
+            @RequestParam(required = false) Long viewerMemberId,
+            @Parameter(description = "답변 여부 필터 (없으면 전체, true: 답변완료, false: 답변대기)")
+            @RequestParam(required = false) Boolean answered) {
+        log.info("문의사항 목록 조회 - page: {}, viewerMemberId: {}, answered: {}", page, viewerMemberId, answered);
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("regDate").descending());
-        Page<InquiryDTO> inquiryPage = inquiryService.getInquiries(pageable, viewerMemberId);
+        Page<InquiryDTO> inquiryPage = inquiryService.getInquiries(pageable, viewerMemberId, answered);
         return ResponseEntity.ok(inquiryPage);
     }
 

@@ -34,6 +34,9 @@ export default function Navbar() {
           <Link href="/events" className="hover:text-brand-600">
             행사
           </Link>
+          <Link href="/facility" className="hover:text-brand-600">
+            시설예약
+          </Link>
 
           {!loading && member && (
             <>

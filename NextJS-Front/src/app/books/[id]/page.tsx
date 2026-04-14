@@ -6,7 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
-import { Book } from "@/types/book";
+import { Book, BOOK_STATUS_LABEL, BOOK_STATUS_COLOR } from "@/types/book";
 
 /**
  * 도서 상세 + 대여 신청 — GET/POST /api/book/{id}, POST /api/rental
@@ -98,13 +98,25 @@ export default function BookDetailPage() {
             className="mb-4 max-h-96 w-full rounded object-contain"
           />
         )}
-        <h1 className="text-2xl font-bold">{book.bookTitle}</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold">{book.bookTitle}</h1>
+          {book.status && (
+            <span
+              className={`rounded px-2.5 py-1 text-sm font-semibold ${BOOK_STATUS_COLOR[book.status]}`}
+            >
+              {BOOK_STATUS_LABEL[book.status]}
+            </span>
+          )}
+        </div>
         <p className="mt-1 text-gray-700">저자: {book.author}</p>
         {book.publisher && (
           <p className="mt-1 text-sm text-gray-500">출판사: {book.publisher}</p>
         )}
         {book.isbn && (
           <p className="mt-1 text-xs text-gray-400">ISBN: {book.isbn}</p>
+        )}
+        {book.publishDate && (
+          <p className="mt-1 text-xs text-gray-400">출판일: {book.publishDate}</p>
         )}
         {book.description && (
           <p className="mt-4 whitespace-pre-wrap text-sm text-gray-700">
@@ -115,10 +127,18 @@ export default function BookDetailPage() {
         <div className="mt-6 flex gap-3">
           <button
             onClick={handleRent}
-            disabled={renting}
-            className="rounded bg-brand-600 px-4 py-2 text-white hover:bg-brand-700 disabled:bg-gray-400"
+            disabled={renting || book.status !== "AVAILABLE"}
+            className="rounded bg-brand-600 px-4 py-2 text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-gray-400"
           >
-            {renting ? "신청 중..." : "대여 신청"}
+            {renting
+              ? "신청 중..."
+              : book.status === "AVAILABLE"
+                ? "대여 신청"
+                : book.status === "RENTED"
+                  ? "대여중 (신청 불가)"
+                  : book.status === "RESERVED"
+                    ? "예약중 (신청 불가)"
+                    : "대여 불가"}
           </button>
         </div>
         {msg && (

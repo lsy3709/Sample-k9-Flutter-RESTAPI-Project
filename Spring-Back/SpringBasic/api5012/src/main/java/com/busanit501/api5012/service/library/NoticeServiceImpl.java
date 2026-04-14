@@ -52,27 +52,29 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     public Page<NoticeDTO> getNotices(Pageable pageable) {
-        log.info("공지사항 목록 조회 - page: {}", pageable.getPageNumber());
+        return getNotices(null, pageable);
+    }
 
-        // 1단계: 상단 고정 공지 조회 (모든 페이지에 포함)
+    @Override
+    public Page<NoticeDTO> getNotices(String keyword, Pageable pageable) {
+        log.info("공지사항 목록 조회 - keyword: {}, page: {}", keyword, pageable.getPageNumber());
+
+        // 키워드가 있으면 통합 검색 (상단고정 구분 없이 제목/내용/작성자 검색)
+        if (keyword != null && !keyword.isBlank()) {
+            Page<Notice> searchPage = noticeRepository.searchByKeyword(keyword, pageable);
+            return searchPage.map(NoticeDTO::fromEntityWithoutImages);
+        }
+
+        // 키워드 없음: 상단 고정 우선 + 일반 공지 페이지네이션
         List<Notice> topNotices = noticeRepository.findByTopFixedTrueOrderByRegDateDesc();
-
-        // 2단계: 일반 공지 페이지네이션 조회
         Page<Notice> normalNoticePage = noticeRepository.findByTopFixedFalseOrderByRegDateDesc(pageable);
 
-        // 3단계: 상단 고정 공지 + 일반 공지 합치기
         List<NoticeDTO> combinedList = new ArrayList<>();
-
-        // 상단 고정 공지를 DTO 로 변환하여 앞에 추가 (이미지 제외, 목록용)
         topNotices.forEach(notice ->
                 combinedList.add(NoticeDTO.fromEntityWithoutImages(notice)));
-
-        // 일반 공지를 DTO 로 변환하여 뒤에 추가
         normalNoticePage.getContent().forEach(notice ->
                 combinedList.add(NoticeDTO.fromEntityWithoutImages(notice)));
 
-        // 4단계: PageImpl 로 페이지 정보와 함께 반환
-        // 총 건수 = 상단고정 수 + 일반 공지 총 건수
         long total = topNotices.size() + normalNoticePage.getTotalElements();
         return new PageImpl<>(combinedList, pageable, total);
     }
