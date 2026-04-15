@@ -7,12 +7,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
+import '../../const/api_constants.dart';
+
 class LoginController extends ChangeNotifier {
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-  // final String serverIp = 'http://10.0.2.2:8080';
 
   bool isLoading = false;
   bool isLoggedIn = false;
@@ -35,7 +36,6 @@ class LoginController extends ChangeNotifier {
   Future<void> login(BuildContext context) async {
     final inputId = idController.text.trim();
     final inputPw = passwordController.text.trim();
-    final Directory appDir = await getApplicationDocumentsDirectory();
 
     if (inputId.isEmpty || inputPw.isEmpty) {
       _showDialog(context, '오류', '아이디와 비밀번호를 입력하세요.');
@@ -47,7 +47,7 @@ class LoginController extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse('${appDir.path}/generateToken'),
+        Uri.parse('${ApiConstants.springBaseUrl2}/generateToken'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'mid': inputId, 'mpw': inputPw}),
       );
@@ -76,7 +76,7 @@ class LoginController extends ChangeNotifier {
         // 도서관 회원 ID + 상세 정보 조회
         try {
           final memberRes = await http.get(
-            Uri.parse('${appDir.path}/api/member/me?mid=$inputId'),
+            Uri.parse('${ApiConstants.springBaseUrl2}/api/member/me?mid=$inputId'),
             headers: {'Authorization': 'Bearer $accessToken'},
           );
           if (memberRes.statusCode == 200) {
@@ -110,7 +110,6 @@ class LoginController extends ChangeNotifier {
   Future<void> loadMemberInfo() async {
     final mid = await secureStorage.read(key: 'mid');
     final token = await secureStorage.read(key: 'accessToken');
-    final Directory appDir = await getApplicationDocumentsDirectory();
     if (mid == null || token == null) return;
 
     currentMid = mid;
@@ -120,7 +119,7 @@ class LoginController extends ChangeNotifier {
     try {
       final res = await http.get(
 
-        Uri.parse('${appDir.path}/api/member/me?mid=$mid'),
+        Uri.parse('${ApiConstants.springBaseUrl2}/api/member/me?mid=$mid'),
         headers: {'Authorization': 'Bearer $token'},
       );
       if (res.statusCode == 200) {
