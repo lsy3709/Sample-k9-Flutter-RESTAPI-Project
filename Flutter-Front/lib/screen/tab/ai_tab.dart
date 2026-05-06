@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// AI 기능 탭
+/// - Gemini 텍스트 챗봇 카드
 /// - AI 이미지 분석 카드
 /// - AI 주가 예측 카드
 class AiTab extends StatelessWidget {
@@ -12,6 +13,14 @@ class AiTab extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       children: [
         const SizedBox(height: 8),
+        _AiFeatureCard(
+          icon: Icons.chat_bubble_outline,
+          color: const Color(0xFF5E35B1),
+          title: 'Gemini 텍스트 챗봇',
+          description: '질문을 입력하면 Gemini가 한국어로\n답변을 생성합니다.',
+          onTap: () => Navigator.pushNamed(context, '/ai-chat'),
+        ),
+        const SizedBox(height: 16),
         _AiFeatureCard(
           icon: Icons.image_search,
           color: const Color(0xFF1565C0),

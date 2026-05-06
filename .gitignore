@@ -67,3 +67,4 @@ Flask-Back/.venv/
 .env
 .env.local
 *.local
+**/application-secret.properties

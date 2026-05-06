@@ -30,6 +30,7 @@ import 'screen/todos/todo_detail_screen.dart';
 // AI
 import 'screen/ai/image/ai_image_screen.dart';
 import 'screen/ai/stock/ai_stock_screen.dart';
+import 'screen/ai/gemini/chat_screen.dart';
 // 내 정보 수정
 import 'screen/mypage/edit_profile_screen.dart';
 // 관리자
@@ -105,6 +106,7 @@ class MyApp extends StatelessWidget {
         // ── AI
         '/ai-image': (_) => AiImageScreen(),
         '/ai-stock': (_) => AiStockScreen(),
+        '/ai-chat': (_) => const ChatScreen(),
 
         // ── 내 정보 수정
         '/editProfile': (_) => const EditProfileScreen(),
