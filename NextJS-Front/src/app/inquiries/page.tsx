@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Inquiry board list page.
+ * Masks secret posts unless the current user is the owner or an admin.
+ */
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { api, PageResponse } from "@/lib/api";

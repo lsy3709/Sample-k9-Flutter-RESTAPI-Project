@@ -1,3 +1,4 @@
+/** 회원(사용자) 정보에 대한 공통 타입 정의입니다 */
 export interface Member {
   id: number;
   mid: string;

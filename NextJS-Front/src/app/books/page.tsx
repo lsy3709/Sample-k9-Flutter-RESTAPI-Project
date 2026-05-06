@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Public book list page.
+ * Combines keyword search with server-side pagination.
+ */
 import { useCallback, useEffect, useState, FormEvent } from "react";
 import Link from "next/link";
 import { api, PageResponse } from "@/lib/api";

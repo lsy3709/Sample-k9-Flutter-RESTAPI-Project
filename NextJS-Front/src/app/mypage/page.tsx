@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * My page landing screen.
+ * Shows current member profile data and shortcuts to private features.
+ */
 import Link from "next/link";
 import Protected from "@/components/Protected";
 import { useAuth } from "@/lib/auth-context";
@@ -68,6 +72,18 @@ function MyPageInner() {
             className="rounded border p-4 hover:bg-gray-50"
           >
             ✏️ 내 정보 수정
+          </Link>
+          <Link
+            href="/ai/chat"
+            className="rounded border border-amber-200 bg-amber-50 p-4 hover:bg-amber-100"
+          >
+            🤖 AI 챗봇 바로가기
+          </Link>
+          <Link
+            href="/ai/image"
+            className="rounded border border-sky-200 bg-sky-50 p-4 hover:bg-sky-100"
+          >
+            🖼️ AI 이미지 분석
           </Link>
         </div>
       </div>

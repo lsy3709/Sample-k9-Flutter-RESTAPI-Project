@@ -1,3 +1,4 @@
+/** 도서 대출(대여) 정보에 대한 타입 정의입니다 */
 export interface Rental {
   id: number;
   memberId?: number;

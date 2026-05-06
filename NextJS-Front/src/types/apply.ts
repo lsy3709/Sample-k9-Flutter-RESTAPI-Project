@@ -1,3 +1,4 @@
+/** 시설 예약 상태를 나타내는 타입입니다 (대기중, 승인됨, 거절됨) */
 export type ApplyStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 export const APPLY_STATUS_LABEL: Record<ApplyStatus, string> = {

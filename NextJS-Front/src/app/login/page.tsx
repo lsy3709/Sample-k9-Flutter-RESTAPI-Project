@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Login page.
+ * Exchanges credentials for JWT tokens and then loads member profile data.
+ */
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Event list page.
+ * Loads paged events and lets logged-in members apply to an event.
+ */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { api, PageResponse } from "@/lib/api";

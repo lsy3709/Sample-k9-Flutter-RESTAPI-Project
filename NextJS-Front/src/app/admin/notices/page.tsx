@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Admin notices page.
+ * Handles notice creation, search, update, and deletion in one screen.
+ */
 import { useCallback, useEffect, useState, FormEvent } from "react";
 import axios from "axios";
 import Link from "next/link";

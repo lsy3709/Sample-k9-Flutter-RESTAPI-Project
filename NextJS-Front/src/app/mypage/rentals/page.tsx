@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Member rental history page.
+ * Supports return and extend actions for active rentals.
+ */
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";

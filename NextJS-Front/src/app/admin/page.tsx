@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Admin dashboard route.
+ * Provides entry links to each admin feature area.
+ */
 import Link from "next/link";
 import Protected from "@/components/Protected";
 

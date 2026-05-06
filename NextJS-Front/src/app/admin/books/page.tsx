@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Admin books page.
+ * Splits book CRUD and rental operations into two tabs in one route.
+ */
 import { useCallback, useEffect, useState, FormEvent } from "react";
 import axios from "axios";
 import Link from "next/link";

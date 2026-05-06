@@ -3,6 +3,12 @@
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 
+/**
+ * 홈페이지 컴포넌트. 최상위 라우트 ('/')에 매핑됩니다.
+ * - 사용자의 로그인 상태를 확인하여 (loading, member),
+ * - 로그인 중이면 사용자 환영 메시지와 주요 기능 링크를 표시하고,
+ * - 비로그인 상태면 로그인/회원가입 버튼을 표시합니다.
+ */
 export default function HomePage() {
   const { member, loading, logout } = useAuth();
 
@@ -26,7 +32,7 @@ export default function HomePage() {
           <p className="text-lg">
             환영합니다, <strong>{member.mname}</strong> 님
           </p>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/books"
               className="rounded bg-brand-600 px-4 py-2 text-white hover:bg-brand-700"
@@ -39,6 +45,12 @@ export default function HomePage() {
             >
               마이페이지
             </Link>
+            <Link
+              href="/ai"
+              className="rounded border border-amber-500 px-4 py-2 text-amber-700 hover:bg-amber-50"
+            >
+              AI 작업 공간
+            </Link>
             <button
               onClick={logout}
               className="rounded border border-gray-300 px-4 py-2 hover:bg-gray-50"
@@ -48,7 +60,7 @@ export default function HomePage() {
           </div>
         </div>
       ) : (
-        <div className="flex gap-3">
+        <div className="flex flex-wrap justify-center gap-3">
           <Link
             href="/login"
             className="rounded bg-brand-600 px-6 py-2 text-white hover:bg-brand-700"
@@ -60,6 +72,12 @@ export default function HomePage() {
             className="rounded border border-brand-600 px-6 py-2 text-brand-600 hover:bg-brand-50"
           >
             회원가입
+          </Link>
+          <Link
+            href="/ai"
+            className="rounded border border-amber-500 px-6 py-2 text-amber-700 hover:bg-amber-50"
+          >
+            AI 보기
           </Link>
         </div>
       )}

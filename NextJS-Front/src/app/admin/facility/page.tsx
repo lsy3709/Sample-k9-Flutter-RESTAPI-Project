@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Admin facility reservation page.
+ * Covers reservation review, status updates, deletion, and manual edits.
+ */
 import { useCallback, useEffect, useState, FormEvent } from "react";
 import axios from "axios";
 import Link from "next/link";

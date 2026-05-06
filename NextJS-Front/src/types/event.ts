@@ -1,3 +1,4 @@
+/** 도서관에서 진행하는 행사 정보에 대한 타입 정의입니다 */
 export interface LibraryEvent {
   id: number;
   category?: string;

@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Signup page.
+ * Checks duplicate member id/email and sends the final signup payload.
+ */
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

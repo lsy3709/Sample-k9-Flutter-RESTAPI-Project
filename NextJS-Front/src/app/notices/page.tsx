@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Notice list page.
+ * Displays paged notices and visually highlights pinned items.
+ */
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { api, PageResponse } from "@/lib/api";

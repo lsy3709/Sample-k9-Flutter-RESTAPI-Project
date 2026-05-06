@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Facility reservation page for members.
+ * Handles both reservation creation and the current member reservation list.
+ */
 import { useState, useEffect, useCallback, FormEvent } from "react";
 import axios from "axios";
 import Protected from "@/components/Protected";

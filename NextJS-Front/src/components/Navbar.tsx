@@ -4,11 +4,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 
+/**
+ * 전역 네비게이션 바 컴포넌트입니다.
+ * - 로그인 상태에 따라 로그인/로그아웃 버튼 및 마이페이지 링크를 조건부 렌더링합니다.
+ * - 관리자 권한이 있는 경우 관리자 페이지 링크를 추가로 표시합니다.
+ * - 주요 메뉴(도서, 공지, 문의, 행사, 시설예약)로의 라우팅을 담당합니다.
+ */
 export default function Navbar() {
   const { member, loading, logout } = useAuth();
   const router = useRouter();
   const isAdmin = member?.role === "ADMIN" || member?.role === "ROLE_ADMIN";
 
+  // 로그아웃 버튼 클릭 시 호출되는 핸들러
   const handleLogout = () => {
     logout();
     router.push("/");
@@ -36,6 +43,9 @@ export default function Navbar() {
           </Link>
           <Link href="/facility" className="hover:text-brand-600">
             시설예약
+          </Link>
+          <Link href="/ai" className="hover:text-brand-600">
+            AI
           </Link>
 
           {!loading && member && (

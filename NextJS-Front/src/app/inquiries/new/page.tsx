@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * New inquiry page.
+ * Requires login and sends the current member id with the create request.
+ */
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";

@@ -1,3 +1,4 @@
+/** 문의사항 게시판의 답변(Reply)에 대한 타입 정의입니다 */
 export interface Reply {
   id: number;
   replyText: string;

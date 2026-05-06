@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Book detail page.
+ * Loads one book by route param and supports rental requests for signed-in users.
+ */
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";

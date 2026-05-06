@@ -1,3 +1,4 @@
+/** 공지사항 게시물에 첨부된 이미지에 대한 타입 정의입니다 */
 export interface NoticeImage {
   id?: number;
   fileName: string;

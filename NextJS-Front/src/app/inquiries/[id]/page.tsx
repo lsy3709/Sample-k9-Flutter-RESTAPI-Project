@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Inquiry detail page.
+ * Renders the inquiry body and any admin replies returned by the API.
+ */
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";

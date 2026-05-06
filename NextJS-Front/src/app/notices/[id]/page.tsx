@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Notice detail page.
+ * Renders body content and attached images for a single notice.
+ */
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";

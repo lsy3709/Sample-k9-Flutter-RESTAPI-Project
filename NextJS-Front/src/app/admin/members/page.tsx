@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Admin member management page.
+ * Loads the full member list and supports destructive member removal.
+ */
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";

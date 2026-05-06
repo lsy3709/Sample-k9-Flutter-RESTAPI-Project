@@ -1,3 +1,7 @@
+/**
+ * Unit tests for auth storage helpers.
+ * Verifies localStorage behavior and token expiration parsing logic.
+ */
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
   saveToken,

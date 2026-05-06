@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Admin inquiry reply page.
+ * Filters inquiries by answered state and supports inline reply creation.
+ */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";

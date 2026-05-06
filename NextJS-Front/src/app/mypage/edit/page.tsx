@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Profile edit page.
+ * Updates member fields first and optionally uploads a new profile image.
+ */
 import { useState, FormEvent, useEffect } from "react";
 import Link from "next/link";
 import axios from "axios";

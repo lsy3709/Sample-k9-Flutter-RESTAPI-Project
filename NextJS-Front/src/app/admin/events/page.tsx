@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Admin events page.
+ * Supports event CRUD, keyword filtering, and edit modal workflows.
+ */
 import { useEffect, useState, FormEvent } from "react";
 import axios from "axios";
 import Link from "next/link";

@@ -1,3 +1,4 @@
+/** 도서의 상태를 나타내는 타입입니다 (대여가능, 대여중, 예약중, 분실) */
 export type BookStatus = "AVAILABLE" | "RENTED" | "RESERVED" | "LOST";
 
 export const BOOK_STATUS_LABEL: Record<BookStatus, string> = {
