@@ -100,6 +100,7 @@
 
 - [GEMINI_AI_PLAN.md](E:\0-sample-flutter-projectt-k9\docs\GEMINI_AI_PLAN.md)
 - [GEMINI_AI_EXECUTION_CHECKLIST.md](E:\0-sample-flutter-projectt-k9\docs\GEMINI_AI_EXECUTION_CHECKLIST.md)
+- [GEMINI_AI_POSTMAN_MULTIMODAL_TEST.md](E:\0-sample-flutter-projectt-k9\docs\GEMINI_AI_POSTMAN_MULTIMODAL_TEST.md)
 
 ---
 

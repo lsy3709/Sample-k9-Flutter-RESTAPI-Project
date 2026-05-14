@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,7 +43,7 @@ public class GeminiController {
         return ResponseEntity.ok(geminiService.chat(requestDTO));
     }
 
-    @PostMapping("/analyze-image")
+    @PostMapping(value = "/analyze-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Gemini 이미지 분석", description = "이미지 파일을 분석하고 설명 텍스트를 반환합니다.")
     public ResponseEntity<ImageAnalysisResponseDTO> analyzeImage(
             @RequestPart MultipartFile image,
@@ -50,20 +51,20 @@ public class GeminiController {
         return ResponseEntity.ok(geminiService.analyzeImage(image, prompt));
     }
 
-    @PostMapping("/ocr/business-card")
+    @PostMapping(value = "/ocr/business-card", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Gemini 명함 OCR", description = "명함 이미지를 분석해 구조화된 명함 정보를 반환합니다.")
     public ResponseEntity<BusinessCardDTO> ocrBusinessCard(@RequestPart MultipartFile image) {
         return ResponseEntity.ok(geminiService.ocrBusinessCard(image));
     }
 
-    @PostMapping("/ocr/search")
+    @PostMapping(value = "/ocr/search", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "명함 기반 회원 검색", description = "명함 이미지를 OCR한 뒤 회원 DB 매칭 결과를 반환합니다.")
     public ResponseEntity<BusinessCardSearchResponseDTO> searchByBusinessCard(
             @RequestPart MultipartFile image) {
         return ResponseEntity.ok(geminiService.searchByBusinessCard(image));
     }
 
-    @PostMapping("/multimodal")
+    @PostMapping(value = "/multimodal", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Gemini 멀티모달 Q&A", description = "이미지와 질문을 함께 전달해 답변을 반환합니다.")
     public ResponseEntity<MultimodalResponseDTO> multimodal(
             @RequestPart MultipartFile image,

@@ -136,14 +136,51 @@ public class CustomSecurityConfig {
     private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil, APIUserDetailsService apiUserDetailsService){
         return new TokenCheckFilter(apiUserDetailsService, jwtUtil);
     }
+    /**
+     * CORS(Cross-Origin Resource Sharing) 설정
+     *
+     * CORS란?
+     *   브라우저 보안 정책(Same-Origin Policy)으로 인해,
+     *   다른 출처(Origin)에서 오는 HTTP 요청은 기본적으로 차단됩니다.
+     *   서버에서 아래 설정을 통해 "어떤 출처/메서드/헤더를 허용할지" 명시합니다.
+     *
+     * ※ Flutter 앱(모바일)은 브라우저가 아니므로 CORS 제한을 받지 않습니다.
+     *   CORS는 주로 웹 브라우저(Next.js, React 등)에서 API 호출 시 적용됩니다.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+
+        // ── 허용할 출처(Origin) 설정 ──────────────────────────────────────────
+        // 방법 1) 와일드카드 - 모든 출처 허용 (개발 환경에서 편리하지만 운영 환경 비권장)
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+
+        // 방법 2) 특정 출처만 허용 - 운영 환경 권장 방식
+        // setAllowedOrigins()은 allowCredentials(true)와 함께 "*" 사용 불가 →
+        // setAllowedOriginPatterns()를 사용해야 함
+        //
+        // [NextJS 허용 예시]
+        // configuration.setAllowedOriginPatterns(Arrays.asList(
+        //     "http://localhost:3000",    // Next.js 로컬 개발 서버
+        //     "https://your-nextjs-domain.com"  // Next.js 운영 서버
+        // ));
+
+        // ── 허용할 HTTP 메서드 ────────────────────────────────────────────────
+        // REST API에서 사용하는 메서드를 모두 허용
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
+
+        // ── 허용할 요청 헤더 ──────────────────────────────────────────────────
+        // Authorization : JWT 토큰 전달 (Bearer 토큰)
+        // Cache-Control : 캐시 제어
+        // Content-Type  : 요청 본문 형식 지정 (application/json 등)
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+
+        // ── 자격증명(쿠키, Authorization 헤더) 포함 허용 ─────────────────────
+        // true 설정 시 setAllowedOriginPatterns()에 "*" 단독 사용 불가
+        // → 반드시 구체적인 출처를 지정하거나 setAllowedOriginPatterns("*") 사용
         configuration.setAllowCredentials(true);
 
+        // ── 모든 경로에 위 설정 적용 ─────────────────────────────────────────
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

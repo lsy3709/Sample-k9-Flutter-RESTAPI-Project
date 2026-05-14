@@ -31,6 +31,9 @@ import 'screen/todos/todo_detail_screen.dart';
 import 'screen/ai/image/ai_image_screen.dart';
 import 'screen/ai/stock/ai_stock_screen.dart';
 import 'screen/ai/gemini/chat_screen.dart';
+import 'screen/ai/gemini/gemini_image_screen.dart';
+import 'screen/ai/gemini/gemini_business_card_screen.dart';
+import 'screen/ai/gemini/gemini_multimodal_screen.dart';
 // 내 정보 수정
 import 'screen/mypage/edit_profile_screen.dart';
 // 관리자
@@ -107,6 +110,9 @@ class MyApp extends StatelessWidget {
         '/ai-image': (_) => AiImageScreen(),
         '/ai-stock': (_) => AiStockScreen(),
         '/ai-chat': (_) => const ChatScreen(),
+        '/gemini-image': (_) => const GeminiImageScreen(),
+        '/gemini-business-card': (_) => const GeminiBusinessCardScreen(),
+        '/gemini-multimodal': (_) => const GeminiMultimodalScreen(),
 
         // ── 내 정보 수정
         '/editProfile': (_) => const EditProfileScreen(),
