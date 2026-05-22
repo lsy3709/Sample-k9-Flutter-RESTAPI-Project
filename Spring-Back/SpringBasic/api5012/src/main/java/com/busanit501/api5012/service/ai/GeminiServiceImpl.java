@@ -195,7 +195,10 @@ public class GeminiServiceImpl implements GeminiService {
         validateImage(image);
 
         BusinessCardDTO extractedCard = ocrBusinessCard(image);
+        log.info("제미나이 서비스 확인중 : 이미지로 ocr 후, 해당 멤버 조회 1차 ocr 결과 내용 확인 :");
+        log.info(extractedCard);
         MatchResult matchResult = findMemberByBusinessCard(extractedCard);
+        log.info("제미나이 서비스 확인중 : 이미지로 ocr 후, 해당 멤버 조회 4차 matchResult 결과 내용 확인 :" + matchResult);
 
         BusinessCardSearchResponseDTO.BusinessCardSearchResponseDTOBuilder builder =
                 BusinessCardSearchResponseDTO.builder()
@@ -203,6 +206,7 @@ public class GeminiServiceImpl implements GeminiService {
                 .matchType(matchResult.matchType())
                 .extractedCard(extractedCard)
                 .implemented(true);
+
 
         matchResult.member().ifPresent(member -> builder
                 .memberId(member.getId())
@@ -212,7 +216,11 @@ public class GeminiServiceImpl implements GeminiService {
                 .region(member.getRegion())
                 .role(member.getRole() == null ? null : member.getRole().name()));
 
-        return builder.build();
+        BusinessCardSearchResponseDTO responseDTO = builder.build();
+
+        log.info("제미나이 서비스 확인중 : 이미지로 ocr 후, 해당 멤버 조회 5차 responseDTO 결과 내용 확인 :" + responseDTO);
+
+        return responseDTO;
     }
 
     @Override
@@ -415,16 +423,20 @@ public class GeminiServiceImpl implements GeminiService {
     private MatchResult findMemberByBusinessCard(BusinessCardDTO card) {
         String email = normalizeBlank(card.getEmail());
         if (email != null) {
+            log.info("제미나이 서비스 확인중 : 이메일 정보 확인 : " + email);
             Optional<Member> member = memberRepository.findByEmail(email);
             if (member.isPresent()) {
+                log.info("제미나이 서비스 확인중 : member 정보 확인 : " + member);
                 return new MatchResult(member, "EMAIL_MATCH");
             }
         }
 
         String name = normalizeBlank(card.getName());
         if (name != null) {
+            log.info("제미나이 서비스 확인중 : name 정보 확인 : " + name);
             List<Member> members = memberRepository.findByMnameContaining(name);
             if (!members.isEmpty()) {
+
                 return new MatchResult(Optional.of(members.get(0)), "NAME_MATCH");
             }
         }
@@ -440,6 +452,7 @@ public class GeminiServiceImpl implements GeminiService {
     }
 
     private record MatchResult(Optional<Member> member, String matchType) {
+
     }
 
     @SuppressWarnings("unchecked")
