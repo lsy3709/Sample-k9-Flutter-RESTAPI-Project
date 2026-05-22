@@ -54,6 +54,7 @@ class _GeminiBusinessCardScreenState extends State<GeminiBusinessCardScreen> {
     setState(() => _isLoadingSearch = true);
     try {
       final result = await AiService.searchByBusinessCard(_image!);
+      print('검색 결과 데이터: $result'); // 콘솔에 출력
       setState(() => _searchResult = result);
     } catch (e) {
       _showError('회원 검색 오류: ${e.toString()}');
@@ -252,9 +253,9 @@ class _GeminiBusinessCardScreenState extends State<GeminiBusinessCardScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              _searchResult!['found'] == true
+              _searchResult!['matched'] == true
                   ? _MatchedMemberCard(
-                      member: _searchResult!['matchedMember'] as Map<String, dynamic>?,
+                      member: _searchResult!['extractedCard'] as Map<String, dynamic>?,
                       matchType: _searchResult!['matchType']?.toString(),
                     )
                   : Container(
